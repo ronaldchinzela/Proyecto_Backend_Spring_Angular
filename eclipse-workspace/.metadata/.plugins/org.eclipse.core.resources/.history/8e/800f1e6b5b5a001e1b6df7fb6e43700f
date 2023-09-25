@@ -1,0 +1,10 @@
+spring.datasource.url=jdbc:mysql://localhost/db_springboot_backend?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=Ptab3gr5
+spring.jackson.time-zone=America/Lima
+spring.jackson.locale=es_PE
+server.port=8080
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQL57Dialect
+spring.jpa.hibernate.ddl-auto=create-drop
+logging.level.org.hibernate.SQL=debug
