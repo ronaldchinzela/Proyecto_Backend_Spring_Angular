@@ -7,6 +7,8 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 export class PaginatorComponent implements OnInit, OnChanges {
   @Input() paginador: any;
 
+  MAX_PAGINAS:number=4
+  
   paginas: number[];
 
   desde: number;
@@ -15,26 +17,22 @@ export class PaginatorComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnInit() {
-    this.initPaginator();
+    //this.initPaginator();
   }
 
-  ngOnChanges(changes: SimpleChanges){
-    let paginadorActualizado = changes['paginador'];
+  ngOnChanges(changes: SimpleChanges): void {
 
-    if(paginadorActualizado.previousValue){
-      this.initPaginator();
-    }
-  }
+    if (this.paginador.totalPages > this.MAX_PAGINAS) {
 
-  private initPaginator(): void{
-    this.desde = Math.min(Math.max(1, this.paginador.number-4), this.paginador.totalPages-5);
-    this.hasta = Math.max(Math.min(this.paginador.totalPages, this.paginador.number+4), 6);
-  
-    if (this.paginador.totalPages > 5) {
-      this.paginas = new Array(this.hasta - this.desde +1).fill(0).map((_valor, indice) => indice + this.desde);
+      this.desde = Math.min( Math.max(0,this.paginador.number-(Math.trunc(this.MAX_PAGINAS/2))),this.paginador.totalPages-this.MAX_PAGINAS);
+      this.hasta = Math.max( Math.min(this.paginador.number+(Math.trunc((this.MAX_PAGINAS+1)/2)),(this.paginador.totalPages)),this.MAX_PAGINAS);
+      this.paginas = new Array(this.hasta-this.desde).fill(0).map((valor, indice) => indice + 1 + this.desde);
+
     } else {
-      this.paginas = new Array(this.paginador.totaPages).fill(0).map((_valor, indice) => indice + 1);
-    } 
+
+      this.paginas = new Array(this.paginador.totalPages).fill(0).map((valor, indice) => indice + 1);
+      
+    }
   }
 
 }

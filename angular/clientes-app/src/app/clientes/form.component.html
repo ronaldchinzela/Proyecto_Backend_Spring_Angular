@@ -56,13 +56,24 @@
         </div>
     </div>
 
-    <!--FECHA DE REGISTRO-->
+    <!-- FECHA DE REGISTRO -->
     <div class="row mb-3">
-        <label for="createAt" class="col-form-label col-sm-2">Fecha de registro</label>
+        <label for="createAt" class="col-form-label col-sm-2" style="margin-top: 0.9rem;">Fecha de registro</label>
         <div class="col-sm-6">
                 <input [matDatepicker]="miDatepicker" class="form-control" [(ngModel)]="cliente.createAt" name="createAt" style="display:inline; width: 297px;">
-                <mat-datepicker-toggle [for]="miDatepicker" style="color: white;"></mat-datepicker-toggle>
+                <mat-datepicker-toggle [for]="miDatepicker" style="color: white; position: relative; top: 0.3rem;"></mat-datepicker-toggle>
                 <mat-datepicker #miDatepicker></mat-datepicker>          
+        </div>
+    </div>
+
+    <!-- LISTAR REGIONES EN UN COMBOBOX -->
+    <div class="row mb-3">
+        <label for="region" class="col-form-label col-sm-2">Región</label>
+        <div class="col-sm-6">
+                <select [compareWith]="compararRegion" class="form-control" [(ngModel)]="cliente.region" name="region" style="width: 500px;" [class.mat-select]="true">  
+                    <option [ngValue]="undefined" style="text-align: center; vertical-align: middle;">--- seleccionar una región ----</option>
+                    <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                </select>
         </div>
     </div>
 

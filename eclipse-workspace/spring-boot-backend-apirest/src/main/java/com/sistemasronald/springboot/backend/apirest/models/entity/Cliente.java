@@ -3,8 +3,11 @@ package com.sistemasronald.springboot.backend.apirest.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
@@ -15,6 +18,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @Table( name = "clientes")
@@ -46,9 +51,15 @@ public class Cliente implements Serializable {
 	
 	private String foto;  
 	
+	@NotNull(message="la región no puede ser vacia")
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="region_id")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	private Region region;
+	
 	
 	//MÉTODOS
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -97,6 +108,13 @@ public class Cliente implements Serializable {
 		this.foto = foto;
 	}
 
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
 
 	private static final long serialVersionUID = 1L;
 

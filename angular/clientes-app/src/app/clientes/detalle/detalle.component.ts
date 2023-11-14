@@ -1,47 +1,74 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Cliente } from '../cliente';
 import { ClienteService } from '../cliente.service';
-import { ActivatedRoute } from '@angular/router';
+import { ModalService } from './modal.service';
+
 import swal from 'sweetalert2';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'detalle-cliente',
   templateUrl: './detalle.component.html',
   styleUrls: ['./detalle.component.css']
 })
-export class DetalleComponent {
+export class DetalleComponent implements OnInit{
   
-  cliente: Cliente;
+  @Input() cliente: Cliente;
+  
   titulo: string = "Detalle del cliente";
+  fotoSeleccionada: File;
+  progreso: number = 0;
 
-  private fotoSeleccionada: File;
-
-  constructor(private clienteService: ClienteService, 
-    private activatedRoute: ActivatedRoute){ }
+  constructor(
+    private clienteService: ClienteService, 
+    public modalService: ModalService){ }
 
   ngOnInit() {
-    this.activatedRoute.paramMap.subscribe(params =>{
-      let id:number = +params.get('id');
-      if(id){
-        this.clienteService.getCliente(id).subscribe(cliente =>{
-          this.cliente = cliente;
-        });
-      }
-    });
   }
 
-  //Seleccionar foto
+  //MÉTODO PARA SELECCIONAR UNA FOTO
   seleccionarFoto(event){
     this.fotoSeleccionada = event.target.files[0];
+
+    this.progreso = 0;
+
     console.log(this.fotoSeleccionada);
+
+    if(this.fotoSeleccionada.type.indexOf('image') < 0 ){
+      swal.fire('Error seleccionar imagen: ', 'El archivo debe ser del tipo imagen', 'error');
+      this.fotoSeleccionada = null;
+    }
+
   }
 
-  //subir la foto
+  //MÉTODO PARA SUBIR LA FOTO
   subirFoto(){
-    this.clienteService.subirFoto(this.fotoSeleccionada, this.cliente.id).subscribe(cliente => {
-        this.cliente = cliente;
-        swal.fire('La foto se ha subido completamente', `La foto se ha subido con éxito: ${this.cliente.foto}`, 'success');
+
+    if(!this.fotoSeleccionada){
+      swal.fire('Error Upload: ', 'Debe seleccionar una foto', 'error');
+    }else{
+
+    this.clienteService.subirFoto(this.fotoSeleccionada, this.cliente.id).subscribe(event => {
+      
+      if(event.type === HttpEventType.UploadProgress){
+        this.progreso = Math.round((event.loaded/event.total)*100);
+      }else if(event.type === HttpEventType.Response){
+        let response: any = event.body;
+        this.cliente = response.cliente as Cliente;
+
+        this.modalService.notificarUpload.emit(this.cliente);
+
+        swal.fire('La foto se ha subido completamente', response.mensaje, 'success');
+      }
+
       });
+    }
   }
 
+  //MÉTODO PARA CERRAR EL MODAL
+  cerrarModal(){
+    this.modalService.cerrarModal();
+    this.fotoSeleccionada = null;
+    this.progreso = 0;
+  }
 }

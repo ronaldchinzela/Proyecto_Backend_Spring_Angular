@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { formatDate, DatePipe} from '@angular/common';
 import { Cliente } from './cliente';
 import { of, throwError, Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { Region } from './region';
 
 @Injectable()
 export class ClienteService {
@@ -13,7 +14,15 @@ export class ClienteService {
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient, 
+    private router: Router
+    ) {}
+
+  //LISTAR LAS REGIONES EN UN COMBOBOX
+  getRegiones(): Observable<Region[]>{
+    return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
+  }
 
   //LISTAR CLIENTE
   getClientes(page: number): Observable<any> {
@@ -110,21 +119,17 @@ export class ClienteService {
   }
 
   //SUBIR FOTO
-  subirFoto(archivo: File, id): Observable<Cliente> {
+  subirFoto(archivo: File, id): Observable<HttpEvent<{}>> {
     
     let formData = new FormData();
     formData.append("archivo", archivo);
     formData.append("id", id);
 
-    return this.http.post(`${this.urlEndPoint}/upload`, formData).pipe (
-      map((response: any) => response.cliente as Cliente),
-    
-        catchError(e => {
-          console.error(e.error.mensaje);
-          swal.fire(e.error.mensaje, e.error.error, 'error');
-          return throwError(() => e);
-        })
-      );
-  }
+    const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
+      reportProgress: true
+    });
 
+    return this.http.request(req);
+
+  }
 }

@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -12,9 +11,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './clientes/form.component';
 import { PaginatorComponent } from './paginator/paginator.component';   
 import { FormsModule } from '@angular/forms'; 
+
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { DetalleComponent } from './clientes/detalle/detalle.component';
@@ -41,7 +42,7 @@ const routes: Routes = [
     ClientesComponent,
     FormComponent,
     PaginatorComponent,
-    DetalleComponent,
+    DetalleComponent
   ],
   imports: [
     BrowserModule,
