@@ -1,0 +1,101 @@
+<ul class="alert alert-danger" *ngIf="errores?.length > 0">
+    <li *ngFor="let err of errores">
+        {{err}}
+    </li>
+</ul>
+
+
+<div class="card bg-dark text-white">
+    <div class="card-header">{{ titulo }}</div> 
+    <div class="card-body">
+
+<form #clienteForm="ngForm">
+
+    <!-- NOMBRE -->
+    <div class="row mb-3">
+        <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre" #nombre="ngModel"> <!-- required minlength="2" -->
+            <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                <div *ngIf="nombre.errors.required">
+                    El nombre es requerido
+                </div>
+                <div *ngIf="nombre.errors.minlength">
+                    El nombre debe tener al menos 2 caracteres
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- APELLIDOS -->
+    <div class="row mb-3">
+        <label for="apellido" class="col-form-label col-sm-2">Apellido</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" #apellido="ngModel"> <!-- required -->
+            <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
+                <div *ngIf="apellido.errors.required">
+                    El apellido es requerido
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="row mb-3">
+        <label for="email" class="col-form-label col-sm-2">Email</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" [(ngModel)]="cliente.email" name="email" #email="ngModel"> <!-- required email -->
+            <div class="alert alert-danger" *ngIf="email.invalid && (email.dirty || email.touched)">
+                <div *ngIf="email.errors.required">
+                    El email es requerido
+                </div>
+                <div *ngIf="email.errors.email">
+                    El email debe tener un formato válido
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FECHA DE REGISTRO -->
+    <div class="row mb-3">
+        <label for="createAt" class="col-form-label col-sm-2" style="margin-top: 0.9rem;">Fecha de registro</label>
+        <div class="col-sm-6">
+                <input [matDatepicker]="miDatepicker" class="form-control" [(ngModel)]="cliente.createAt" name="createAt" style="display:inline; width: 297px;">
+                <mat-datepicker-toggle [for]="miDatepicker" style="color: white; position: relative; top: 0.3rem;"></mat-datepicker-toggle>
+                <mat-datepicker #miDatepicker></mat-datepicker>          
+        </div>
+    </div>
+
+    <!-- LISTAR REGIONES EN UN COMBOBOX -->
+    <div class="row mb-3">
+        <label for="region" class="col-form-label col-sm-2">Región</label>
+        <div class="col-sm-6">
+                <select [compareWith]="compararRegion" class="form-control" [(ngModel)]="cliente.region" name="region" style="width: 500px;" [class.mat-select]="true">  
+                    <option [ngValue]="undefined" style="text-align: center; vertical-align: middle;">--- seleccionar una región ----</option>
+                    <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                </select>
+        </div>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="form-group row">
+        <div class="col-sm-6">
+
+            <button class="btn btn-primary" role="button" (click)='create()' *ngIf="!cliente.id else elseBlock" [disabled]="!clienteForm.form.valid">
+                Crear
+            </button>
+
+            <ng-template #elseBlock>
+                <button class="btn btn-primary" role="button" (click)='update()' [disabled]="!clienteForm.form.valid">
+                    Editar
+                </button>
+            </ng-template>
+            
+        </div>
+    </div>
+
+</form>
+
+<div>
+
+</div>
