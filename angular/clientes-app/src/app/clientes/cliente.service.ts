@@ -60,6 +60,7 @@ export class ClienteService {
       catchError((e) => {
         this.router.navigate(['/clientes']);
         console.error(e.error.mensaje);
+
         swal.fire('Error al editar', e.error.mensaje, 'error');
         return throwError(() => e);
       })
