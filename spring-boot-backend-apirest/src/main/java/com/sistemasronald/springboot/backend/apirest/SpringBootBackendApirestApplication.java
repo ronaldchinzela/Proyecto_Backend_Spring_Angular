@@ -24,6 +24,6 @@ public class SpringBootBackendApirestApplication implements CommandLineRunner {
 			String passwordBcrypt = passwordEncoder.encode(password);
 			System.out.println(passwordBcrypt);
 		}
-		System.out.println("R".concat(" & ").concat("E🐹"));
+		System.out.println("Ronald".concat(" & ").concat("Erika🐹"));
 	}
 }
