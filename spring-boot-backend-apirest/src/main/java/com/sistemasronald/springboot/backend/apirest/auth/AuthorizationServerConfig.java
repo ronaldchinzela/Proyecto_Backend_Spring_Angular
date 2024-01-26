@@ -43,7 +43,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     //MÉTODO PARA CONFIGURAR A LOS CLIENTES (APLICACIÓN ANGULAR) QUE SE VAN A CONECTAR CON SUS CREDENCIALES
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("angularApp") //corresponde al username del cliente (aplicación)
+        clients.inMemory().withClient("angularapp") //corresponde al username del cliente (aplicación)
         .secret(passwordEncoder.encode("12345")) //contraseña para el cliente (aplicación)
         .scopes("read", "write")//permisos que va tener la aplicación (en este caso va leer datos y escribir información)
         .authorizedGrantTypes("password", "refresh_token") //tipo de autenticación del token

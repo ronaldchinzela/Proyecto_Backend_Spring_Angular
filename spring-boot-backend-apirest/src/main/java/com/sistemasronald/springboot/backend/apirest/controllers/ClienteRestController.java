@@ -52,20 +52,20 @@ public class ClienteRestController {
 	//private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);  
 	
 	
-	//BUSCAR Y LISTAR TODOS LOS CLIENTES (SIN SEGURIDAD EN LA EJECUCIÓN DEL TOKEN PORQUE SERÁ PUBLICO)
+	//MÉTODO BUSCAR Y LISTAR TODOS LOS CLIENTES (SIN SEGURIDAD EN LA EJECUCIÓN DEL TOKEN PORQUE SERÁ PUBLICO)
 	@GetMapping("/clientes")
 	public List<Cliente> index(){
 		return clienteService.findAll();
 	}
 	
-	//PAGINACIÓN PARA EL LISTADO DE CLIENTES (SIN SEGURIDAD EN LA EJECUCIÓN DEL TOKEN PORQUE SERÁ PUBLICO)
+	//MÉTODO PAGINACIÓN PARA EL LISTADO DE CLIENTES (SIN SEGURIDAD EN LA EJECUCIÓN DEL TOKEN PORQUE SERÁ PUBLICO)
 	@GetMapping("/clientes/page/{page}")
 	public Page<Cliente> index(@PathVariable Integer page){
 		Pageable pageable = PageRequest.of(page, 4);
 		return clienteService.findAll(pageable);
 	}
 
-	//BUSCAR CLIENTES POR ID
+	//MÉTODO BUSCAR CLIENTES POR ID
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})//Seguridad para que el método lo ejecute el admin y el usuario.
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
@@ -93,7 +93,7 @@ public class ClienteRestController {
 		return new ResponseEntity<>(cliente, HttpStatus.OK);
 	}
 
-	//CREAR NUEVO CLIENTE
+	//MÉTODO CREAR NUEVO CLIENTE
 	@Secured("ROLE_ADMIN")//Implementando la seguridad para que el método lo ejecute únicamente el admin.
 	@PostMapping("/clientes")
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
@@ -128,7 +128,7 @@ public class ClienteRestController {
 		
 	}
 	
-	//ACTUALIZAR CLIENTE
+	//MÉTODO ACTUALIZAR CLIENTE
 	@Secured("ROLE_ADMIN")//Implementando la seguridad para que el método lo ejecute únicamente el admin.
 	@PutMapping("/clientes/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
@@ -181,7 +181,7 @@ public class ClienteRestController {
 				
 	}
 	
-	//ELIMINAR CLIENTE
+	//MÉTODO ELIMINAR CLIENTE
 	@Secured("ROLE_ADMIN")//Implementando la seguridad para que el método lo ejecute únicamente el admin.
 	@DeleteMapping("/clientes/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
@@ -217,7 +217,7 @@ public class ClienteRestController {
 
 	}
 	
-	//SUBIR IMAGEN AL SERVIDOR
+	//MÉTODO SUBIR IMAGEN AL SERVIDOR
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})//Seguridad para que el método lo ejecute el admin y el usuario.
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){

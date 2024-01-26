@@ -23,8 +23,8 @@ INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(6, '
 INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(7, 'Jade', 'Doe', 'jane.doe@gmail.com', '2018-03-06');
 
 /* Creamos algunos usuarios con sus roles */
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('ronald','$2a$10$z0PSInsNb5983ayxsTogYukwAOW94NnIDIsReQ68j2YCnwJdeWNcW',1, 'Ronald', 'Chinchay', 'ronald96@gmail.com');
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('erika','$2a$10$Wi43hAzXOWExfqthxEaQduBr8N6ohOGECGoiNcYxHiJp2zGjfp4Iu  ',1, 'Erika', 'Yzaguirre', 'erika.yzaguirre@gmail.com');
+INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('ronald','$2a$10$x/SQy6qzoRB7PFubRAbqtOpD/WrVCFWBrdIRu3H2yipZgBH9dtBLO',1, 'Ronald', 'Chinchay', 'ronald96@gmail.com');
+INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('erika','$2a$10$AQjVWD2lgIZaWig32gasL.JIp87/LvVAUoD7hHYgmt60bLV7ykqge',1, 'Erika', 'Yzaguirre', 'erika.yzaguirre@gmail.com');
 
 INSERT INTO `roles` (nombre) VALUES ('ROLE_USER');
 INSERT INTO `roles` (nombre) VALUES ('ROLE_ADMIN');
