@@ -4,8 +4,12 @@ import { ClienteService } from '../cliente.service';
 import { ModalService } from './modal.service';
 
 import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { HttpEventType } from '@angular/common/http';
 import { AuthService } from '../../usuarios/auth.service';
+
+import { FacturaService } from '../../facturas/services/factura.service';
+import { Factura } from '../../facturas/models/factura';
 
 @Component({
   selector: 'detalle-cliente',
@@ -21,9 +25,11 @@ export class DetalleComponent implements OnInit{
   progreso: number = 0;
 
   constructor(
-    private clienteService: ClienteService, 
+    private clienteService: ClienteService,
+    private facturaService: FacturaService, 
     private authService: AuthService,
-    public modalService: ModalService){ }
+    public modalService: ModalService
+    ){ }
 
   ngOnInit() {
   }
@@ -73,4 +79,40 @@ export class DetalleComponent implements OnInit{
     this.fotoSeleccionada = null;
     this.progreso = 0;
   }
+
+  //MÉTODO PARA ELIMINAR FACTURA
+  delete(factura: Factura): void{
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger',
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+    .fire({
+      title: 'Está seguro?',
+      text: `¿Seguro que desea eliminar la factura ${factura.descripcion}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar!',
+      cancelButtonText: 'No, cancelar!',
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        this.facturaService.delete(factura.id).subscribe((response) => {
+          this.cliente.facturas = this.cliente.facturas.filter((fac) => fac !== factura);
+          swalWithBootstrapButtons.fire(
+            'Factura Eliminada!',
+            `Factura ${factura.descripcion} eliminada con éxito.`,
+            'success'
+          );
+        });
+      }
+    });
+  }
+
 }

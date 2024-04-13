@@ -1,7 +1,9 @@
 package com.sistemasronald.springboot.backend.apirest.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -10,7 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
+/*Clase Cliente que tiene una relación con la clase Factura (Un cliente puede tener muchas facturas)*/
 @Entity
 @Table( name = "clientes")
 public class Cliente implements Serializable {
@@ -46,8 +48,17 @@ public class Cliente implements Serializable {
 	@JoinColumn(name="region_id")
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Region region;
-	
-	
+
+	//CREANDO RELACION ENTRE CLIENTE Y FACTURA(1 CLIENTE PUEDE TENER MUCHAS FACTURAS)
+	@JsonIgnoreProperties(value = {"cliente", "hibernateLazyInitializer", "handler"}, allowSetters = true) //Ignoramos la relación inversa (en este caso, ingnoramos cliente) y también ignoramos otros atributos basura ("hibernateLazyInitializer" y "handler").
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)//Indicamos que un cliente puede tener muchas facturas.
+	private List<Factura> facturas;
+
+	//CREAMOS UN CONSTRUCTOR E INICIALIZAMOS FACTURAS COMO UN ARRAY LIST
+	public Cliente() {
+		this.facturas = new ArrayList<>();
+	}
+
 	//MÉTODOS
 
 	public Long getId() {
@@ -104,6 +115,14 @@ public class Cliente implements Serializable {
 
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+	public List<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
 	}
 
 	private static final long serialVersionUID = 1L;

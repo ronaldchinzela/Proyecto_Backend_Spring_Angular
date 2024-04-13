@@ -21,17 +21,16 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-        .antMatchers(HttpMethod.GET, "/api/clientes", "/api/clientes/page/**", "/api/uploads/img/**", "/images/**").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/clientes", "/api/clientes/page/**", "/api/uploads/img/**", "/images/**").permitAll()
         /*.antMatchers(HttpMethod.GET, "/api/clientes/{id}").hasAnyRole("USER", "ADMIN")//MÉTODO PARA BUSCAR POR ID PERMITIDO PARA USER Y ADMIN.
         .antMatchers(HttpMethod.POST, "/api/clientes/upload").hasAnyRole("USER", "ADMIN")//MÉTODO PARA SUBIR UNA IMAGEN PERMITIDO PARA USER Y ADMIN.
         .antMatchers(HttpMethod.POST, "/api/clientes").hasRole("ADMIN")//MÉTODO POST PERMITIDO SOLO PARA ADMIN.
         .antMatchers("/api/clientes/**").hasRole("ADMIN")//MÉTODO PUT Y DELETE PERMITIDO SOLO PARA ADMIN.*/
-        .anyRequest()
-        .authenticated().and().cors().configurationSource(corsConfigurationSource());
+                .anyRequest().authenticated()
+                .and().cors().configurationSource(corsConfigurationSource());
     }
 
-    //MÉTODO PARA CONFIGURAR EL FUNCIONAMIENTO LOS MÉTODOS CON TOKEN EN NUESTRA APLICACIÓN ANGULAR
+    //MÉTODO PARA CONFIGURAR EL FUNCIONAMIENTO LOS M    ÉTODOS CON TOKEN EN NUESTRA APLICACIÓN ANGULAR
     @Bean
     public CorsConfigurationSource  corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration();
