@@ -108,7 +108,7 @@ export class FacturasComponent implements OnInit{
   eliminarItemFactura(id: number): void{
     this.factura.items = this.factura.items.filter((item: ItemFactura) => id !== item.producto.id);
   }
-
+  
   create(facturaForm): void{
     console.log(this.factura);
 
@@ -120,7 +120,7 @@ export class FacturasComponent implements OnInit{
 
     this.facturaService.create(this.factura).subscribe(factura => {
       swal.fire(this.titulo, `Factura ${factura.descripcion} creada con éxito!`, 'success');
-      this.router.navigate(['/clientes']);
+      this.router.navigate(['/facturas', factura.id]);
     });
 
    }

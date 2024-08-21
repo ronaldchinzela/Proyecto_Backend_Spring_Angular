@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:4200"})//OPCIONAL PARA ANGULAR. PARA INDICAR EL PUERTO QUE VA EJEUTAR EL FRONT.
+@CrossOrigin(origins = {"http://localhost:4200", "*"})//ANOTACIÓN OPCIONAL PARA ANGULAR. PARA INDICAR EL PUERTO QUE VA EJEUTAR EL FRONT Y "*" PARA INDICAR EL SERVIDOR EN PRODUCCIÓN.
 @RestController
 @RequestMapping("/api")
 public class FacturaRestController {

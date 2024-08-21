@@ -27,7 +27,7 @@ export class DetalleComponent implements OnInit{
   constructor(
     private clienteService: ClienteService,
     private facturaService: FacturaService, 
-    private authService: AuthService,
+    public authService: AuthService,
     public modalService: ModalService
     ){ }
 

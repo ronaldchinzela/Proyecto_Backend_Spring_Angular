@@ -38,7 +38,7 @@ import com.sistemasronald.springboot.backend.apirest.models.services.IUploadFile
 import javax.validation.Valid;
 
 
-@CrossOrigin(origins = {"http://localhost:4200"})//OPCIONAL PARA ANGULAR. PARA INDICAR EL PUERTO QUE VA EJEUTAR EL FRONT. 
+@CrossOrigin(origins = {"http://localhost:4200", "*"})//OPCIONAL PARA ANGULAR. PARA INDICAR EL PUERTO QUE VA EJEUTAR EL FRONT.
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
